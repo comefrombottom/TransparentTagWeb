@@ -1,0 +1,146 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Compile Debug",
+            "command": "emcc",
+            "args": [
+                "@.vscode/Compile.rsp",
+                "@.vscode/Compile.Debug.rsp",
+                "@.vscode/Link.rsp",
+                "@.vscode/Link.Debug.rsp"
+            ]
+        },
+        {
+            "type": "shell",
+            "label": "Compile Release",
+            "command": "emcc",
+            "args": [
+                "@.vscode/Compile.rsp",
+                "@.vscode/Compile.Release.rsp",
+                "@.vscode/Link.rsp",
+                "@.vscode/Link.Release.rsp"
+            ]
+        },
+        {
+            "label": "Build Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Compile Debug",
+                "Compress Output"
+            ],
+            "group":{
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Compile Release",
+                "Compress Output"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Compress Output",
+            "command": "node",
+            "args": [
+                ".vscode/Compress.mjs", "index.wasm"
+            ],
+            "group": "none"
+        },
+        {
+            "type": "shell",
+            "label": "Run Local Server and Open Browser",
+            "command": "emrun",
+            "args": [
+                "--hostname", "localhost",
+                "--port", "8080",
+                "index.html"
+            ],
+            "group": "none"
+        },
+        {
+            "type": "shell",
+            "label": "Run Local Server",
+            "command": "emrun",
+            "args": 
+            [
+                "--hostname", "localhost",
+                "--port", "8080",
+                "--no_browser",
+                "index.html"
+            ],
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".",
+                            "file": 1,
+                            "location": 2,
+                            "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".",
+                        "endsPattern": "Now listening at",
+                    }
+                }
+            ],
+            "group": "none"
+        },
+        {
+            "type": "shell",
+            "label": "Run Local Server2",
+            "command": "emrun",
+            "args": 
+            [
+                "--hostname", "localhost",
+                "--port", "8090",
+                "--no_browser",
+                "index.html"
+            ],
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".",
+                            "file": 1,
+                            "location": 2,
+                            "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".",
+                        "endsPattern": "Now listening at",
+                    }
+                }
+            ],
+            "group": "none"
+        },
+        {
+            "label": "Stop Local Server",
+            "type": "shell",
+            "command": "echo ${input:terminate}",
+            "group": "none"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "terminate",
+            "type": "command",
+            "command": "workbench.action.tasks.terminate",
+            "args": "Run Local Server"
+        }
+    ]
+}

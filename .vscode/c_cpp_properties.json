@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Emscripten on Windows",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/OpenSiv3D/include",
+                "${workspaceFolder}/OpenSiv3D/include/ThirdParty"
+            ],
+            "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc.bat",
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "clang-x86"
+        },
+        {
+            "name": "Emscripten on macOS/Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/OpenSiv3D/include",
+                "${workspaceFolder}/OpenSiv3D/include/ThirdParty"
+            ],
+            "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc",
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "clang-x86"
+        }
+    ],
+    "version": 4
+}
